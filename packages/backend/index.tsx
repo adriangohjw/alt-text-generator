@@ -98,10 +98,10 @@ export default {
         );
 
         // Generate alt text using the service
-        const altText = await generateAltText(
-          base64Image,
-          config.GEMINI_API_KEY
-        );
+        const altText = await generateAltText({
+          imageData: base64Image,
+          apiKey: config.GEMINI_API_KEY,
+        });
 
         // Return the generated alt text
         return new Response(JSON.stringify({ altText, sourceUrl: imageUrl }), {
@@ -124,11 +124,11 @@ export default {
         }
 
         // Generate alt text using the service
-        const altText = await generateAltText(
-          requestData.imageData,
-          config.GEMINI_API_KEY,
-          requestData.isUrl || false
-        );
+        const altText = await generateAltText({
+          imageData: requestData.imageData,
+          apiKey: config.GEMINI_API_KEY,
+          isUrl: requestData.isUrl || false,
+        });
 
         // Return the generated alt text
         return new Response(JSON.stringify({ altText }), {
@@ -160,10 +160,10 @@ export default {
         );
 
         // Generate alt text using the service
-        const altText = await generateAltText(
-          base64Image,
-          config.GEMINI_API_KEY
-        );
+        const altText = await generateAltText({
+          imageData: base64Image,
+          apiKey: config.GEMINI_API_KEY,
+        });
 
         // Return the generated alt text
         return new Response(JSON.stringify({ altText }), {

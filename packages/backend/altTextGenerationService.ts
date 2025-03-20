@@ -27,11 +27,17 @@ interface GeminiResponse {
  * @param isUrl - Whether the imageData is a URL (true) or base64 data (false)
  * @returns Generated alt text as a string
  */
-export async function generateAltText(
-  imageData: string,
-  apiKey: string,
-  isUrl: boolean = false
-): Promise<string> {
+interface GenerateAltTextOptions {
+  imageData: string;
+  apiKey: string;
+  isUrl?: boolean;
+}
+
+export async function generateAltText({
+  imageData,
+  apiKey,
+  isUrl = false,
+}: GenerateAltTextOptions): Promise<string> {
   // Prepare image data based on input type
   const imageContent = isUrl
     ? { uri: imageData }
