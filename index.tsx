@@ -62,7 +62,7 @@ export default {
       });
 
       // Return the generated alt text
-      return new Response(JSON.stringify({ altText, sourceUrl: imageUrl }), {
+      return new Response(JSON.stringify({ altText }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     } catch (error) {
