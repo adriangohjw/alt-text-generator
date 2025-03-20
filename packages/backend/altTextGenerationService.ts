@@ -38,12 +38,6 @@ export async function generateAltText({
   contentType,
   apiKey,
 }: GenerateAltTextOptions): Promise<string> {
-  // Prepare image data based on input type
-  const imageContent = {
-    data: imageData,
-    mimeType: contentType,
-  };
-
   // Create the request payload with the prompt and image
   const requestBody = {
     contents: [
@@ -52,7 +46,12 @@ export async function generateAltText({
           {
             text: GENERATE_ALT_TEXT_PROMPT,
           },
-          { inline_data: imageContent },
+          {
+            inline_data: {
+              data: imageData,
+              mimeType: contentType,
+            },
+          },
         ],
       },
     ],
