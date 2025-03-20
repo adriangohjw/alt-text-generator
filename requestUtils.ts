@@ -67,5 +67,15 @@ export async function validateAndFetchImage(
  * @returns A base64 encoded string
  */
 export function arrayBufferToBase64(buffer: ArrayBuffer): string {
-  return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+  const uint8Array = new Uint8Array(buffer);
+  let binaryString = "";
+  const chunkSize = 8192; // Process in 8KB chunks to avoid stack overflow
+
+  // Process the array in chunks
+  for (let i = 0; i < uint8Array.length; i += chunkSize) {
+    const chunk = uint8Array.slice(i, i + chunkSize);
+    binaryString += String.fromCharCode.apply(null, Array.from(chunk));
+  }
+
+  return btoa(binaryString);
 }
