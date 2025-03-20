@@ -141,7 +141,3 @@ For any issues with environment variables, check the Cloudflare dashboard or run
 ```bash
 wrangler secret list
 ```
-
-## License
-
-[MIT License](LICENSE)
