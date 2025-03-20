@@ -1,3 +1,5 @@
+import { GENERATE_ALT_TEXT_PROMPT, GEMINI_API_ENDPOINT } from "./constants";
+
 /**
  * Alt Text Generation Service using Google Gemini 2.0 Flash API
  *
@@ -30,9 +32,6 @@ export async function generateAltText(
   apiKey: string,
   isUrl: boolean = false
 ): Promise<string> {
-  const GEMINI_API_ENDPOINT =
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
-
   // Prepare image data based on input type
   const imageContent = isUrl
     ? { uri: imageData }
@@ -47,7 +46,7 @@ export async function generateAltText(
       {
         parts: [
           {
-            text: "Generate a concise and descriptive alt text for this image. Focus on the key elements, context, and purpose of the image. The alt text should be helpful for someone who cannot see the image.",
+            text: GENERATE_ALT_TEXT_PROMPT,
           },
           { inline_data: imageContent },
         ],
