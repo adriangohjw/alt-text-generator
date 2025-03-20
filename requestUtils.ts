@@ -41,9 +41,7 @@ export async function validateAndFetchImage(
   }
 
   // Download the image from the provided URL
-  console.log("Downloading image from URL:", imageUrl);
   const imageResponse = await fetch(imageUrl);
-  console.log("Image response:", imageResponse);
 
   if (!imageResponse.ok) {
     return {
