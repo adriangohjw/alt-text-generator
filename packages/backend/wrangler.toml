@@ -1,3 +1,17 @@
 name = "alt-text-generator-backend"
 main = "index.tsx"
 compatibility_date = "2023-12-01"
+
+# Environment variables configuration
+# DO NOT put actual secret values here - use wrangler secret commands instead
+[vars]
+# Non-sensitive environment variables can be defined here
+# These values are validated using Zod in config.ts
+
+# Example configurations (uncomment and adjust as needed):
+# DEBUG_MODE = "false"  # Valid values: "true" or "false"
+# LOG_LEVEL = "info"    # Valid values: "debug", "info", "warn", "error"
+
+# For sensitive values like API keys, use:
+# wrangler secret put GEMINI_API_KEY
+# See ENV-SETUP.md for detailed instructions on setting up environment variables
