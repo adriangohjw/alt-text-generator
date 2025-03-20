@@ -23,28 +23,26 @@ interface GeminiResponse {
  * Generates alt text for an image using Google Gemini 2.0 Flash API
  *
  * @param imageData - Base64 encoded image data (without prefix) or URL to the image
+ * @param contentType - The MIME type of the image data
  * @param apiKey - Google Gemini API Key
- * @param isUrl - Whether the imageData is a URL (true) or base64 data (false)
  * @returns Generated alt text as a string
  */
 interface GenerateAltTextOptions {
   imageData: string;
+  contentType: string;
   apiKey: string;
-  isUrl?: boolean;
 }
 
 export async function generateAltText({
   imageData,
+  contentType,
   apiKey,
-  isUrl = false,
 }: GenerateAltTextOptions): Promise<string> {
   // Prepare image data based on input type
-  const imageContent = isUrl
-    ? { uri: imageData }
-    : {
-        data: imageData,
-        mimeType: "image/jpeg", // Adjust if you need to support other formats explicitly
-      };
+  const imageContent = {
+    data: imageData,
+    mimeType: contentType,
+  };
 
   // Create the request payload with the prompt and image
   const requestBody = {
