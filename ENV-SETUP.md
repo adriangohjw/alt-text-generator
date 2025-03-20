@@ -85,7 +85,7 @@ For production deployments:
 1. Configure secrets in the Cloudflare dashboard:
 
    - Go to the Workers section
-   - Find your worker (alt-text-generator-backend)
+   - Find your worker (alt-text-generator)
    - Navigate to Settings > Variables
    - Add your environment variables in the "Environment Variables" section
    - For secret values like API keys, click the "Encrypt" option

@@ -23,12 +23,11 @@ A service that automatically generates accessible alt text for images using Goog
 2. Install dependencies:
 
    ```
-   cd packages/backend
    npm install
    ```
 
 3. Configure your Gemini API key:
-   - Create a `.env.development.local` file in the `packages/backend` directory with the following content:
+   - Create a `.env.development.local` file in the root directory with the following content:
    ```
    GEMINI_API_KEY=your_gemini_api_key_here
    ```
@@ -36,7 +35,6 @@ A service that automatically generates accessible alt text for images using Goog
 ### Running Locally
 
 ```
-cd packages/backend
 npm run dev
 ```
 
@@ -45,7 +43,6 @@ This will start the development server at `http://localhost:8787`.
 ### Deployment
 
 ```
-cd packages/backend
 npm run deploy
 ```
 

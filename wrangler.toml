@@ -1,4 +1,4 @@
-name = "alt-text-generator-backend"
+name = "alt-text-generator"
 main = "index.tsx"
 compatibility_date = "2023-12-01"
 
@@ -14,4 +14,4 @@ compatibility_date = "2023-12-01"
 
 # For sensitive values like API keys, use:
 # wrangler secret put GEMINI_API_KEY
-# See ENV-SETUP.md for detailed instructions on setting up environment variables
+# See ENV-SETUP.md for detailed instructions on setting up environment variables 
