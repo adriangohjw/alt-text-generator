@@ -10,7 +10,6 @@ import {
   handleImageFetchError,
   handleInvalidContentType,
 } from "./errorHandlers";
-import { corsHeaders } from "./middleware";
 
 /**
  * Extracts the image URL from the request
