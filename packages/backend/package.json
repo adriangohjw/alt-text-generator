@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "wrangler dev",
+    "dev:local": "wrangler dev --env-path=.env.development.local",
+    "setup:env": "cp .env.example .env.development.local && echo 'Environment file created. Update GEMINI_API_KEY in .env.development.local'",
     "deploy": "wrangler deploy"
   },
   "dependencies": {

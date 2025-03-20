@@ -22,7 +22,39 @@ If an environment variable fails validation, the application will display a deta
 
 ## Local Development Setup
 
-For local development, you can set environment variables using Wrangler:
+For local development, you have two options:
+
+### Option 1: Using .env.development.local (Recommended for Development)
+
+1. Use the provided setup script to create your local environment file:
+
+   ```bash
+   npm run setup:env
+   ```
+
+   This will create a `.env.development.local` file based on the example template.
+
+2. Edit the `.env.development.local` file and add your API key:
+
+   ```
+   GEMINI_API_KEY=your_api_key_here
+   ```
+
+   Replace `your_api_key_here` with your actual Gemini API key.
+
+3. Run the application using the local development script:
+
+   ```bash
+   npm run dev:local
+   ```
+
+   This script will automatically load environment variables from `.env.development.local`.
+
+4. This file is already added to `.gitignore` so it won't be committed to version control.
+
+### Option 2: Using Wrangler
+
+This is recommended for production deployments:
 
 1. Install Wrangler CLI if you haven't already:
 
