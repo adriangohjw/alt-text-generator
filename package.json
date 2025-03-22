@@ -2,18 +2,25 @@
   "name": "alt-text-generator",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "npm@10.9.2",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "wrangler dev",
-    "dev:local": "cp .env.development.local .dev.vars && wrangler dev",
-    "setup:env": "cp .env.example .env.development.local && echo 'Environment file created. Update GEMINI_API_KEY in .env.development.local'",
-    "deploy": "wrangler deploy"
-  },
-  "dependencies": {
-    "zod": "^3.24.2"
+    "dev": "turbo run dev",
+    "dev:backend": "turbo run dev --filter=backend",
+    "dev:frontend": "turbo run dev --filter=frontend",
+    "build": "turbo run build",
+    "build:backend": "turbo run build --filter=backend",
+    "build:frontend": "turbo run build --filter=frontend",
+    "lint": "turbo run lint",
+    "lint:backend": "turbo run lint --filter=backend",
+    "lint:frontend": "turbo run lint --filter=frontend",
+    "setup:env:backend": "cd packages/backend && cp .env.example .env.development.local && echo 'Environment file created. Update GEMINI_API_KEY in .env.development.local'",
+    "deploy": "turbo run deploy",
+    "deploy:backend": "turbo run deploy --filter=backend"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240208.0",
-    "typescript": "^5.3.3",
-    "wrangler": "^4.2.0"
+    "turbo": "^2.4.4"
   }
 }
