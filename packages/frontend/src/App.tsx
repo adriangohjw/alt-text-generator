@@ -5,10 +5,7 @@ import {
   AltTextDisplay,
   Footer,
 } from "./components";
-import {
-  fileToBase64,
-  generateAltText as generateAltTextApi,
-} from "./utils/imageUtils";
+import { fileToBase64, generateAltTextApi } from "./utils";
 
 function App() {
   const [image, setImage] = useState<File | null>(null);
