@@ -56,7 +56,7 @@ function App() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col items-center justify-center p-4">
       <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-8">
-        Alt Text Generator
+        Image Alt Text Generator
       </h1>
 
       <div className="w-full max-w-md space-y-6">
