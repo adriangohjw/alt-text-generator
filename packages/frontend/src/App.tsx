@@ -192,9 +192,13 @@ function App() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col items-center justify-center p-4">
-      <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
         Image Alt Text Generator
       </h1>
+
+      <p className="text-sm text-gray-600 dark:text-gray-400 mb-6 text-center">
+        Demo app for API deployed on Cloudflare Worker
+      </p>
 
       <div className="w-full max-w-md space-y-6">
         <ApiKeyInput apiKey={apiKey} onApiKeyChange={handleApiKeyChange} />
