@@ -1,54 +1,74 @@
-# React + TypeScript + Vite
+# Alt Text Generator Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend interface for the Alt Text Generator service, which automatically generates accessible alt text for images using Google's Gemini 2.0 Flash AI model.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- User-friendly interface for uploading images or providing image URLs
+- Preview of uploaded/selected images
+- Display of generated alt text with option to copy to clipboard
+- Responsive design that works on desktop and mobile devices
 
-## Expanding the ESLint configuration
+## Setup and Configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisites
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- Node.js and npm
+- Backend service running (either locally or deployed)
+
+### Installation
+
+1. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. Configure the backend API endpoint:
+
+   Create a `.env.local` file in the root of the frontend package:
+
+   ```
+   VITE_API_ENDPOINT=http://localhost:8787
+   ```
+
+   For production, this should point to your deployed backend worker URL.
+
+### Running Locally
+
+```bash
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+This will start the development server, typically at `http://localhost:5173`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Building for Production
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm run build
 ```
+
+This generates a production build in the `dist` directory.
+
+### Deployment
+
+The frontend can be deployed to any static hosting service:
+
+1. Build the project:
+
+   ```bash
+   npm run build
+   ```
+
+2. Deploy the contents of the `dist` directory to your preferred hosting service.
+
+## Development Guidelines
+
+- Follow the established project structure
+- Maintain accessibility standards
+- Test with various image types and sizes
+- Ensure responsive design works across devices
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
