@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "wrangler dev",
-    "dev:local": "cp .env.development.local .dev.vars && wrangler dev",
+    "dev": "cp .env.development.local .dev.vars && wrangler dev",
     "build": "tsc",
     "lint": "tsc --noEmit",
     "setup:env": "cp .env.example .env.development.local && echo 'Environment file created. Update GEMINI_API_KEY in .env.development.local'",
