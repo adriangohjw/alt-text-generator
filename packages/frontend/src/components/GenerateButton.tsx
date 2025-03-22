@@ -17,7 +17,7 @@ export function GenerateButton({
         ${
           !hasImage || isGenerating
             ? "bg-gray-400 cursor-not-allowed"
-            : "bg-blue-600 hover:bg-blue-700"
+            : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
         } 
         transition-colors duration-200`}
     >
