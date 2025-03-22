@@ -96,14 +96,15 @@ export default {
           );
         }
 
-        // Get API key - now required from client
+        // Get API key - prioritize the client-provided key
         const apiKeyToUse = body.apiKey || config.GEMINI_API_KEY;
 
-        // Require an API key
+        // Require an API key either from client or environment
         if (!apiKeyToUse) {
           return new Response(
             JSON.stringify({
-              error: "API key is required. Please provide a Gemini API key.",
+              error:
+                "API key is required. Please provide a Gemini API key in the request.",
             }),
             {
               status: 400,

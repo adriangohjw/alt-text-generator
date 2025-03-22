@@ -36,7 +36,7 @@ A service that automatically generates accessible alt text for images using Goog
 
    This will create a `.env.development.local` file based on the example template.
 
-4. Edit the `.env.development.local` file and add your API key:
+4. Edit the `.env.development.local` file and add your API key (optional - you can also provide the API key directly in each request):
 
    ```
    GEMINI_API_KEY=your_gemini_api_key_here
@@ -68,7 +68,7 @@ For deployment to Cloudflare Workers:
 
    This will open a browser window where you'll need to log in to your Cloudflare account and authorize Wrangler.
 
-3. Set your secret API key:
+3. Set your secret API key (optional - you can also provide the API key directly in each request):
 
    ```bash
    wrangler secret put GEMINI_API_KEY
@@ -91,7 +91,7 @@ For deployment to Cloudflare Workers:
    ```bash
    curl -X POST \
      -H "Content-Type: application/json" \
-     -d '{"imageUrl":"https://example.com/sample-image.jpg"}' \
+     -d '{"imageUrl":"https://example.com/sample-image.jpg", "apiKey":"your_gemini_api_key_here"}' \
      "https://alt-text-generator.<your-account>.workers.dev/"
    ```
 
@@ -99,9 +99,9 @@ You can also manage your worker through the [Cloudflare Dashboard](https://dash.
 
 ## Environment Variables
 
-| Variable Name  | Description                                   | Required | Validation       |
-| -------------- | --------------------------------------------- | -------- | ---------------- |
-| GEMINI_API_KEY | Google Gemini API key used for image analysis | Yes      | Non-empty string |
+| Variable Name  | Description                                   | Required | Validation                   |
+| -------------- | --------------------------------------------- | -------- | ---------------------------- |
+| GEMINI_API_KEY | Google Gemini API key used for image analysis | No       | Non-empty string if provided |
 
 This project uses [Zod](https://github.com/colinhacks/zod) for environment variable validation. If validation fails, the application will display an error message indicating which variable failed and why.
 
@@ -116,9 +116,12 @@ POST https://your-worker-url.workers.dev/
 Content-Type: application/json
 
 {
-  "imageUrl": "https://example.com/path/to/image.jpg"
+  "imageUrl": "https://example.com/path/to/image.jpg",
+  "apiKey": "your_gemini_api_key_here"
 }
 ```
+
+The `apiKey` parameter is optional. If not provided, the server will use its configured API key.
 
 ### Option 2: Using base64-encoded image data
 
@@ -128,9 +131,12 @@ Content-Type: application/json
 
 {
   "imageData": "base64EncodedImageDataHere...",
-  "contentType": "image/jpeg"
+  "contentType": "image/jpeg",
+  "apiKey": "your_gemini_api_key_here"
 }
 ```
+
+The `apiKey` parameter is optional. If not provided, the server will use its configured API key.
 
 ### Response
 

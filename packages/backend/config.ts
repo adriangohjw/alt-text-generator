@@ -9,8 +9,8 @@ import { z } from "zod";
 
 // Define the environment schema using Zod
 const environmentSchema = z.object({
-  // API Keys with validation rules
-  GEMINI_API_KEY: z.string().min(1, "GEMINI_API_KEY is required"),
+  // API Keys with validation rules - now optional
+  GEMINI_API_KEY: z.string().min(1, "GEMINI_API_KEY is required").optional(),
 
   // Optional environment variables (example)
   // DEBUG: z.enum(['true', 'false']).optional().default('false'),
