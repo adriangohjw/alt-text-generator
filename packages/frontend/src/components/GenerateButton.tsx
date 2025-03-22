@@ -13,13 +13,7 @@ export function GenerateButton({
     <button
       disabled={!hasImage || isGenerating}
       onClick={onGenerate}
-      className={`w-full py-3 rounded-lg font-medium text-white 
-        ${
-          !hasImage || isGenerating
-            ? "bg-gray-400 cursor-not-allowed"
-            : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
-        } 
-        transition-colors duration-200`}
+      className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-60 disabled:bg-blue-400 transition-colors"
     >
       {isGenerating ? "Generating..." : "Generate Alt Text"}
     </button>
