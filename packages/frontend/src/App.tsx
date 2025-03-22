@@ -5,14 +5,14 @@ import {
   AltTextDisplay,
   Footer,
   UrlInput,
+  InputMethodTabs,
 } from "./components";
 import {
   fileToBase64,
   generateAltTextApi,
   generateAltTextFromUrlApi,
 } from "./utils";
-
-type InputMethod = "upload" | "url";
+import { InputMethod } from "./types";
 
 function App() {
   const [image, setImage] = useState<File | null>(null);
@@ -85,6 +85,19 @@ function App() {
     }
   };
 
+  const handleSelectInputMethod = (method: InputMethod) => {
+    if (method === "upload") {
+      setInputMethod("upload");
+      setPreviewUrl(null);
+      setAltText(null);
+    } else {
+      setInputMethod("url");
+      setImage(null);
+      setImagePreview(null);
+      setAltText(null);
+    }
+  };
+
   const renderInputMethod = () => {
     if (inputMethod === "upload") {
       return (
@@ -138,37 +151,10 @@ function App() {
       </h1>
 
       <div className="w-full max-w-md space-y-6">
-        <div className="flex border-b border-gray-300 dark:border-gray-700 mb-4">
-          <button
-            className={`px-4 py-2 font-medium text-sm ${
-              inputMethod === "upload"
-                ? "border-b-2 border-blue-500 text-blue-600 dark:text-blue-400"
-                : "text-gray-500 dark:text-gray-400"
-            }`}
-            onClick={() => {
-              setInputMethod("upload");
-              setPreviewUrl(null);
-              setAltText(null);
-            }}
-          >
-            Upload Image
-          </button>
-          <button
-            className={`px-4 py-2 font-medium text-sm ${
-              inputMethod === "url"
-                ? "border-b-2 border-blue-500 text-blue-600 dark:text-blue-400"
-                : "text-gray-500 dark:text-gray-400"
-            }`}
-            onClick={() => {
-              setInputMethod("url");
-              setImage(null);
-              setImagePreview(null);
-              setAltText(null);
-            }}
-          >
-            Image URL
-          </button>
-        </div>
+        <InputMethodTabs
+          inputMethod={inputMethod}
+          onSelectMethod={handleSelectInputMethod}
+        />
 
         {renderInputMethod()}
 
