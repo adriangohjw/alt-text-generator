@@ -4,7 +4,16 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [
+    react({
+      // Use the JS implementation as fallback if native bindings fail
+      useAtYourOwnRisk_mutateSwcOptions(options) {
+        if (!options.jsc) options.jsc = {};
+        options.jsc.externalHelpers = false;
+      },
+    }),
+    tailwindcss(),
+  ],
   server: {
     proxy: {
       "/api/generate-alt-text": {
