@@ -74,6 +74,10 @@ export function ImageUpload({
             onClick={(e) => {
               e.stopPropagation();
               onRemoveImage();
+              // Reset the file input value so the same file can be uploaded again
+              if (fileInputRef.current) {
+                fileInputRef.current.value = "";
+              }
             }}
             disabled={isGenerating}
             className={`px-4 py-2 text-white rounded transition-colors
