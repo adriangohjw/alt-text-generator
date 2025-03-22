@@ -89,7 +89,10 @@ For deployment to Cloudflare Workers:
 6. Test your deployment with a simple request:
 
    ```bash
-   curl "https://alt-text-generator.<your-account>.workers.dev/?url=https://example.com/sample-image.jpg"
+   curl -X POST \
+     -H "Content-Type: application/json" \
+     -d '{"imageUrl":"https://example.com/sample-image.jpg"}' \
+     "https://alt-text-generator.<your-account>.workers.dev/"
    ```
 
 You can also manage your worker through the [Cloudflare Dashboard](https://dash.cloudflare.com/) where you can view logs, update settings, and monitor usage.
@@ -104,15 +107,34 @@ This project uses [Zod](https://github.com/colinhacks/zod) for environment varia
 
 ## API Usage
 
-The API only accepts images via URL query parameter using GET requests:
+The API accepts POST requests with a JSON body containing either an image URL or base64-encoded image data:
+
+### Option 1: Using an image URL
 
 ```
-GET https://your-worker-url.workers.dev/?url=https://example.com/path/to/image.jpg
+POST https://your-worker-url.workers.dev/
+Content-Type: application/json
+
+{
+  "imageUrl": "https://example.com/path/to/image.jpg"
+}
+```
+
+### Option 2: Using base64-encoded image data
+
+```
+POST https://your-worker-url.workers.dev/
+Content-Type: application/json
+
+{
+  "imageData": "base64EncodedImageDataHere...",
+  "contentType": "image/jpeg"
+}
 ```
 
 ### Response
 
-The API returns a JSON response with the generated alt text and source URL:
+The API returns a JSON response with the generated alt text:
 
 ```json
 {

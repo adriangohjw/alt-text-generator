@@ -2,16 +2,19 @@ import { ExportedHandler, ExecutionContext } from "@cloudflare/workers-types";
 import { generateAltText } from "./altTextGenerationService";
 import { validateEnvironment, EnvironmentConfig } from "./config";
 import { handleEnvironmentError, handleServerError } from "./errorHandlers";
-import {
-  corsHeaders,
-  handleOptionsRequest,
-  validateGetMethod,
-} from "./middleware";
-import {
-  extractImageUrl,
-  validateAndFetchImage,
-  arrayBufferToBase64,
-} from "./requestUtils";
+import { corsHeaders, handleOptionsRequest } from "./middleware";
+import { validateAndFetchImage, arrayBufferToBase64 } from "./requestUtils";
+
+/**
+ * Alt Text Generator API
+ *
+ * This API provides functionality to generate alt text for images.
+ * It supports two methods of image input:
+ * 1. Direct upload: Send base64-encoded image data with content type
+ * 2. URL reference: Send a URL to an image that the service will fetch and process
+ *
+ * All requests must use the POST method.
+ */
 
 // Define the interface for Cloudflare Workers environment
 interface Env {
@@ -19,10 +22,17 @@ interface Env {
   GEMINI_API_KEY?: string;
 }
 
-// Define the interface for the POST request body
+/**
+ * Interface for the POST request body
+ *
+ * The request must include EITHER:
+ * - imageData (base64) and contentType, OR
+ * - imageUrl
+ */
 interface GenerateAltTextRequest {
-  imageData: string;
-  contentType: string;
+  imageData?: string;
+  contentType?: string;
+  imageUrl?: string;
 }
 
 export default {
@@ -47,15 +57,34 @@ export default {
     const method = request.method;
 
     if (method === "POST") {
-      // Handle POST requests with base64 image data
       try {
         // Parse the request body
         const body = (await request.json()) as GenerateAltTextRequest;
-        const { imageData, contentType } = body;
+        let imageData: string;
+        let contentType: string;
 
-        if (!imageData || !contentType) {
+        // Case 1: Direct base64 image data provided
+        if (body.imageData && body.contentType) {
+          imageData = body.imageData;
+          contentType = body.contentType;
+        }
+        // Case 2: Image URL provided
+        else if (body.imageUrl) {
+          // Validate and fetch the image from URL
+          const fetchResult = await validateAndFetchImage(body.imageUrl);
+          if (!fetchResult.success) {
+            return fetchResult.response;
+          }
+
+          // Convert the image to base64
+          imageData = arrayBufferToBase64(fetchResult.arrayBuffer);
+          contentType = fetchResult.contentType;
+        } else {
           return new Response(
-            JSON.stringify({ error: "Missing imageData or contentType" }),
+            JSON.stringify({
+              error:
+                "Missing required parameters. Provide either imageData+contentType or imageUrl",
+            }),
             {
               status: 400,
               headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -63,7 +92,7 @@ export default {
           );
         }
 
-        // Generate alt text using the service with the base64 image data
+        // Generate alt text using the service
         const altText = await generateAltText({
           imageData,
           contentType,
@@ -77,44 +106,15 @@ export default {
       } catch (error) {
         return handleServerError(error);
       }
-    } else if (method === "GET") {
-      // Validate that the request method is GET
-      const methodCheckResponse = validateGetMethod(request);
-      if (methodCheckResponse) return methodCheckResponse;
-
-      try {
-        // Extract and validate the image URL
-        const imageUrl = extractImageUrl(request);
-
-        // Validate and fetch the image
-        const fetchResult = await validateAndFetchImage(imageUrl);
-        if (!fetchResult.success) {
-          return fetchResult.response;
-        }
-
-        // Convert the image to base64
-        const base64Image = arrayBufferToBase64(fetchResult.arrayBuffer);
-
-        // Generate alt text using the service
-        const altText = await generateAltText({
-          imageData: base64Image,
-          contentType: fetchResult.contentType,
-          apiKey: config.GEMINI_API_KEY,
-        });
-
-        // Return the generated alt text
-        return new Response(JSON.stringify({ altText }), {
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      } catch (error) {
-        return handleServerError(error);
-      }
     } else {
       // Method not allowed
-      return new Response("Method not allowed", {
-        status: 405,
-        headers: { ...corsHeaders },
-      });
+      return new Response(
+        "Method not allowed. Use POST to send image data or image URL.",
+        {
+          status: 405,
+          headers: { ...corsHeaders },
+        }
+      );
     }
   },
 } satisfies ExportedHandler<Env>;

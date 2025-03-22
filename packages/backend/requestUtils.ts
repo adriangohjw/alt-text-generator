@@ -1,8 +1,8 @@
 /**
  * Request utility functions for the API server
  *
- * This file contains functions for extracting and validating parameters
- * from incoming requests.
+ * This file contains functions for validating and processing images
+ * from URLs provided in POST request bodies.
  */
 
 import {
@@ -12,20 +12,9 @@ import {
 } from "./errorHandlers";
 
 /**
- * Extracts the image URL from the request
- *
- * @param request The incoming request
- * @returns The image URL or null if not found
- */
-export function extractImageUrl(request: Request): string | null {
-  const url = new URL(request.url);
-  return url.searchParams.get("url");
-}
-
-/**
  * Validates the image URL and fetches the image
  *
- * @param imageUrl The URL of the image to fetch
+ * @param imageUrl The URL of the image to fetch (provided in POST request body)
  * @returns A promise resolving to an object with image data or an error response
  */
 export async function validateAndFetchImage(
@@ -36,7 +25,7 @@ export async function validateAndFetchImage(
 > {
   // If no URL parameter provided, return an error
   if (!imageUrl) {
-    return { success: false, response: handleMissingParam("url") };
+    return { success: false, response: handleMissingParam("imageUrl") };
   }
 
   // Download the image from the provided URL
