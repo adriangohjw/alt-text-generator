@@ -72,7 +72,7 @@ export function ImageUpload({
             Click to upload or drag and drop
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            Supports: JPG, PNG, GIF
+            Supports: Most image formats
           </p>
         </div>
       )}
