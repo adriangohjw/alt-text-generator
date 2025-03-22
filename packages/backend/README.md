@@ -1,7 +1,5 @@
 # Alt Text Generator
 
-![Alt Text Generator Demo](./demo.gif)
-
 A service that automatically generates accessible alt text for images using Google's Gemini 2.0 Flash AI model. This service provides a simple API endpoint that accepts images (either via direct upload or URL) and returns descriptive alt text suitable for improving web accessibility.
 
 ## Features

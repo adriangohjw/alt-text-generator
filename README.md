@@ -1,6 +1,6 @@
 # Alt Text Generator
 
-![Alt Text Generator](./packages/backend/demo.gif)
+![Alt Text Generator Demo](/demo.gif)
 
 A full-stack application that automatically generates accessible alt text for images using Google's Gemini 2.0 Flash AI model.
 
@@ -80,11 +80,3 @@ For complete deployment instructions, see:
 
 - [Backend Documentation](./packages/backend/README.md)
 - [Frontend Documentation](./packages/frontend/README.md)
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
