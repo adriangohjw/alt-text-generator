@@ -1,3 +1,5 @@
+import { API_URL } from "../constants";
+
 /**
  * Converts a file to a base64 string
  * @param file The file to convert
@@ -27,7 +29,8 @@ export async function generateAltTextApi(
   contentType: string,
   apiKey?: string
 ): Promise<string> {
-  const response = await fetch("/api/generate-alt-text", {
+  console.log("API_URL", API_URL);
+  const response = await fetch(API_URL || "/api/generate-alt-text", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -57,7 +60,12 @@ export async function generateAltTextFromUrlApi(
   imageUrl: string,
   apiKey?: string
 ): Promise<string> {
-  const response = await fetch("/api/generate-alt-text", {
+  // Use the API_URL from environment variables
+  const url = API_URL
+    ? `${API_URL}/generate-alt-text`
+    : "/api/generate-alt-text";
+
+  const response = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
