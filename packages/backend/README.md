@@ -84,7 +84,7 @@ For deployment to Cloudflare Workers:
 
    This will build your project and deploy it to Cloudflare Workers.
 
-5. After successful deployment, you'll receive a URL for your worker (typically `https://alt-text-generator.<your-account>.workers.dev`).
+5. After successful deployment, you'll receive a URL for your worker (typically `https://alt-text-generator-backend.<your-account>.workers.dev`).
 
 6. Test your deployment with a simple request:
 
@@ -92,7 +92,7 @@ For deployment to Cloudflare Workers:
    curl -X POST \
      -H "Content-Type: application/json" \
      -d '{"imageUrl":"https://example.com/sample-image.jpg", "apiKey":"your_gemini_api_key_here"}' \
-     "https://alt-text-generator.<your-account>.workers.dev/"
+     "https://alt-text-generator-backend.<your-account>.workers.dev/"
    ```
 
 You can also manage your worker through the [Cloudflare Dashboard](https://dash.cloudflare.com/) where you can view logs, update settings, and monitor usage.

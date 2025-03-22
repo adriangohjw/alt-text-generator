@@ -1,4 +1,4 @@
-name = "alt-text-generator"
+name = "alt-text-generator-backend"
 main = "index.tsx"
 compatibility_date = "2023-12-01"
 
