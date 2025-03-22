@@ -4,11 +4,11 @@ interface GenerateButtonProps {
   onGenerate: () => void;
 }
 
-const GenerateButton = ({
+export function GenerateButton({
   hasImage,
   isGenerating,
   onGenerate,
-}: GenerateButtonProps) => {
+}: GenerateButtonProps) {
   return (
     <button
       disabled={!hasImage || isGenerating}
@@ -24,6 +24,4 @@ const GenerateButton = ({
       {isGenerating ? "Generating..." : "Generate Alt Text"}
     </button>
   );
-};
-
-export default GenerateButton;
+}

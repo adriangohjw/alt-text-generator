@@ -1,7 +1,10 @@
 import { useState } from "react";
-import ImageUpload from "./components/ImageUpload";
-import GenerateButton from "./components/GenerateButton";
-import AltTextDisplay from "./components/AltTextDisplay";
+import {
+  ImageUpload,
+  GenerateButton,
+  AltTextDisplay,
+  Footer,
+} from "./components";
 import {
   fileToBase64,
   generateAltText as generateAltTextApi,
@@ -74,6 +77,7 @@ function App() {
 
         <AltTextDisplay altText={altText} />
       </div>
+      <Footer />
     </div>
   );
 }

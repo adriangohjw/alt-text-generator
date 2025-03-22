@@ -6,11 +6,11 @@ interface ImageUploadProps {
   onRemoveImage: () => void;
 }
 
-const ImageUpload = ({
+export function ImageUpload({
   imagePreview,
   onFileUpload,
   onRemoveImage,
-}: ImageUploadProps) => {
+}: ImageUploadProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
@@ -85,6 +85,4 @@ const ImageUpload = ({
       />
     </div>
   );
-};
-
-export default ImageUpload;
+}

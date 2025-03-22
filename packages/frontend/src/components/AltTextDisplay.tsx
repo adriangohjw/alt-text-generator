@@ -2,7 +2,7 @@ interface AltTextDisplayProps {
   altText: string | null;
 }
 
-const AltTextDisplay = ({ altText }: AltTextDisplayProps) => {
+export function AltTextDisplay({ altText }: AltTextDisplayProps) {
   if (!altText) return null;
 
   return (
@@ -13,6 +13,4 @@ const AltTextDisplay = ({ altText }: AltTextDisplayProps) => {
       <p className="text-gray-700 dark:text-gray-300">{altText}</p>
     </div>
   );
-};
-
-export default AltTextDisplay;
+}
