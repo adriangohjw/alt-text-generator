@@ -200,7 +200,7 @@ function App() {
         Demo app for API deployed on Cloudflare Worker
       </p>
 
-      <div className="w-full max-w-md space-y-6">
+      <div className="w-full max-w-md space-y-3">
         <ApiKeyInput apiKey={apiKey} onApiKeyChange={handleApiKeyChange} />
 
         <InputMethodTabs
