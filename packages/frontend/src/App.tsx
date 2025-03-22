@@ -85,7 +85,8 @@ function App() {
 
   const handleUrlSubmit = async (url: string) => {
     if (!apiKey) {
-      setAltText("Please provide a Gemini API key first.");
+      // Don't set altText for API key missing error
+      // Instead, just return early
       return;
     }
 
@@ -132,13 +133,6 @@ function App() {
 
   const handleApiKeyChange = (newApiKey: string) => {
     setApiKey(newApiKey);
-    if (!newApiKey) {
-      setAltText("Please provide a Gemini API key to generate alt text.");
-    } else if (
-      altText === "Please provide a Gemini API key to generate alt text."
-    ) {
-      setAltText(null);
-    }
   };
 
   const renderInputMethod = () => {
@@ -196,13 +190,6 @@ function App() {
     }
   };
 
-  // Set a notice if no API key is provided
-  useEffect(() => {
-    if (!apiKey && !altText) {
-      setAltText("Please provide a Gemini API key to generate alt text.");
-    }
-  }, []);
-
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col items-center justify-center p-4">
       <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">
@@ -219,7 +206,7 @@ function App() {
 
         {renderInputMethod()}
 
-        <AltTextDisplay altText={altText} />
+        {altText && <AltTextDisplay altText={altText} />}
       </div>
       <Footer />
     </div>
