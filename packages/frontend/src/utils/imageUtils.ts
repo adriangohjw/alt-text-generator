@@ -19,11 +19,13 @@ export function fileToBase64(file: File): Promise<string> {
  * Generates alt text for an image using base64 image data
  * @param imageData Base64 image data
  * @param contentType MIME type of the image
+ * @param apiKey Optional Gemini API key
  * @returns A promise that resolves to the generated alt text
  */
 export async function generateAltTextApi(
   imageData: string,
-  contentType: string
+  contentType: string,
+  apiKey?: string
 ): Promise<string> {
   const response = await fetch("/api/generate-alt-text", {
     method: "POST",
@@ -33,6 +35,7 @@ export async function generateAltTextApi(
     body: JSON.stringify({
       imageData,
       contentType,
+      apiKey,
     }),
   });
 
@@ -47,10 +50,12 @@ export async function generateAltTextApi(
 /**
  * Generates alt text for an image using an image URL
  * @param imageUrl URL of the image to analyze
+ * @param apiKey Optional Gemini API key
  * @returns A promise that resolves to the generated alt text
  */
 export async function generateAltTextFromUrlApi(
-  imageUrl: string
+  imageUrl: string,
+  apiKey?: string
 ): Promise<string> {
   const response = await fetch("/api/generate-alt-text", {
     method: "POST",
@@ -59,6 +64,7 @@ export async function generateAltTextFromUrlApi(
     },
     body: JSON.stringify({
       imageUrl,
+      apiKey,
     }),
   });
 

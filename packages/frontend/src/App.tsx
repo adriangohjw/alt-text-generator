@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ImageUpload,
   GenerateButton,
@@ -6,6 +6,7 @@ import {
   Footer,
   UrlInput,
   InputMethodTabs,
+  ApiKeyInput,
 } from "./components";
 import {
   fileToBase64,
@@ -21,6 +22,24 @@ function App() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [inputMethod, setInputMethod] = useState<InputMethod>("upload");
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [apiKey, setApiKey] = useState<string>("");
+
+  // Load API key from localStorage on initial load
+  useEffect(() => {
+    const savedApiKey = localStorage.getItem("geminiApiKey");
+    if (savedApiKey) {
+      setApiKey(savedApiKey);
+    }
+  }, []);
+
+  // Save API key to localStorage whenever it changes
+  useEffect(() => {
+    if (apiKey) {
+      localStorage.setItem("geminiApiKey", apiKey);
+    } else {
+      localStorage.removeItem("geminiApiKey");
+    }
+  }, [apiKey]);
 
   const handleFileUpload = (file: File) => {
     if (file.type.startsWith("image/")) {
@@ -42,7 +61,7 @@ function App() {
   };
 
   const handleGenerateAltTextFromUpload = async () => {
-    if (!image) return;
+    if (!image || !apiKey) return;
 
     try {
       setIsGenerating(true);
@@ -51,7 +70,8 @@ function App() {
       const base64Image = await fileToBase64(image);
       const generatedAltText = await generateAltTextApi(
         base64Image,
-        image.type
+        image.type,
+        apiKey
       );
 
       setAltText(generatedAltText);
@@ -64,6 +84,11 @@ function App() {
   };
 
   const handleUrlSubmit = async (url: string) => {
+    if (!apiKey) {
+      setAltText("Please provide a Gemini API key first.");
+      return;
+    }
+
     try {
       setIsGenerating(true);
       setAltText("Generating alt text...");
@@ -73,7 +98,7 @@ function App() {
       setImage(null);
       setImagePreview(null);
 
-      const generatedAltText = await generateAltTextFromUrlApi(url);
+      const generatedAltText = await generateAltTextFromUrlApi(url, apiKey);
       setAltText(generatedAltText);
     } catch (error) {
       console.error("Error generating alt text from URL:", error);
@@ -105,6 +130,17 @@ function App() {
     }
   };
 
+  const handleApiKeyChange = (newApiKey: string) => {
+    setApiKey(newApiKey);
+    if (!newApiKey) {
+      setAltText("Please provide a Gemini API key to generate alt text.");
+    } else if (
+      altText === "Please provide a Gemini API key to generate alt text."
+    ) {
+      setAltText(null);
+    }
+  };
+
   const renderInputMethod = () => {
     switch (inputMethod) {
       case "upload":
@@ -118,7 +154,7 @@ function App() {
             />
 
             <GenerateButton
-              hasImage={!!image}
+              hasImage={!!image && !!apiKey}
               isGenerating={isGenerating}
               onGenerate={handleGenerateAltTextFromUpload}
             />
@@ -127,7 +163,10 @@ function App() {
       case "url":
         return (
           <>
-            <UrlInput onUrlSubmit={handleUrlSubmit} isDisabled={isGenerating} />
+            <UrlInput
+              onUrlSubmit={handleUrlSubmit}
+              isDisabled={isGenerating || !apiKey}
+            />
 
             {previewUrl && (
               <div className="mt-4 p-4 border border-gray-200 rounded-lg dark:border-gray-700">
@@ -157,13 +196,22 @@ function App() {
     }
   };
 
+  // Set a notice if no API key is provided
+  useEffect(() => {
+    if (!apiKey && !altText) {
+      setAltText("Please provide a Gemini API key to generate alt text.");
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col items-center justify-center p-4">
-      <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-8">
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">
         Image Alt Text Generator
       </h1>
 
       <div className="w-full max-w-md space-y-6">
+        <ApiKeyInput apiKey={apiKey} onApiKeyChange={handleApiKeyChange} />
+
         <InputMethodTabs
           inputMethod={inputMethod}
           onSelectMethod={handleSelectInputMethod}

@@ -28,11 +28,15 @@ interface Env {
  * The request must include EITHER:
  * - imageData (base64) and contentType, OR
  * - imageUrl
+ *
+ * Optionally, it can include:
+ * - apiKey: A user-provided API key to use instead of the server's key
  */
 interface GenerateAltTextRequest {
   imageData?: string;
   contentType?: string;
   imageUrl?: string;
+  apiKey?: string;
 }
 
 export default {
@@ -92,11 +96,27 @@ export default {
           );
         }
 
+        // Get API key - now required from client
+        const apiKeyToUse = body.apiKey || config.GEMINI_API_KEY;
+
+        // Require an API key
+        if (!apiKeyToUse) {
+          return new Response(
+            JSON.stringify({
+              error: "API key is required. Please provide a Gemini API key.",
+            }),
+            {
+              status: 400,
+              headers: { ...corsHeaders, "Content-Type": "application/json" },
+            }
+          );
+        }
+
         // Generate alt text using the service
         const altText = await generateAltText({
           imageData,
           contentType,
-          apiKey: config.GEMINI_API_KEY,
+          apiKey: apiKeyToUse,
         });
 
         // Return the generated alt text
