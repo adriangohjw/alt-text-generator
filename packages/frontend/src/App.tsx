@@ -148,6 +148,7 @@ function App() {
             onClick={() => {
               setInputMethod("upload");
               setPreviewUrl(null);
+              setAltText(null);
             }}
           >
             Upload Image
@@ -162,6 +163,7 @@ function App() {
               setInputMethod("url");
               setImage(null);
               setImagePreview(null);
+              setAltText(null);
             }}
           >
             Image URL
