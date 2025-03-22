@@ -114,6 +114,7 @@ function App() {
               imagePreview={imagePreview}
               onFileUpload={handleFileUpload}
               onRemoveImage={handleRemoveImage}
+              isGenerating={isGenerating}
             />
 
             <GenerateButton

@@ -4,12 +4,14 @@ interface ImageUploadProps {
   imagePreview: string | null;
   onFileUpload: (file: File) => void;
   onRemoveImage: () => void;
+  isGenerating?: boolean;
 }
 
 export function ImageUpload({
   imagePreview,
   onFileUpload,
   onRemoveImage,
+  isGenerating = false,
 }: ImageUploadProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -22,7 +24,12 @@ export function ImageUpload({
     e.preventDefault();
     e.stopPropagation();
 
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+    // Only process the file drop if no image is already uploaded
+    if (
+      !imagePreview &&
+      e.dataTransfer.files &&
+      e.dataTransfer.files.length > 0
+    ) {
       const file = e.dataTransfer.files[0];
       onFileUpload(file);
     }
@@ -35,18 +42,25 @@ export function ImageUpload({
     }
   };
 
+  const handleBoxClick = () => {
+    // Only open file input if no image is already uploaded
+    if (!imagePreview) {
+      fileInputRef.current?.click();
+    }
+  };
+
   return (
     <div
-      className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer 
+      className={`border-2 border-dashed rounded-lg p-6 text-center 
         ${
           imagePreview
-            ? "border-green-500"
-            : "border-gray-300 hover:border-gray-400"
+            ? "border-gray-300"
+            : "border-gray-300 hover:border-gray-400 cursor-pointer"
         } 
         transition-colors duration-200`}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
-      onClick={() => fileInputRef.current?.click()}
+      onClick={handleBoxClick}
     >
       {imagePreview ? (
         <div className="space-y-4">
@@ -61,7 +75,13 @@ export function ImageUpload({
               e.stopPropagation();
               onRemoveImage();
             }}
-            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+            disabled={isGenerating}
+            className={`px-4 py-2 text-white rounded transition-colors
+              ${
+                isGenerating
+                  ? "bg-gray-400"
+                  : "bg-red-500 hover:bg-red-600 cursor-pointer"
+              }`}
           >
             Remove Image
           </button>
