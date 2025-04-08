@@ -59,3 +59,7 @@ worker-configuration.json
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions 
+
+# Scripts
+scripts/alt-text-output.csv
+scripts/images/
