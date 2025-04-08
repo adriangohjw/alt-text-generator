@@ -1,7 +1,11 @@
-import * as fs from "fs";
 import * as path from "path";
-import { generateAltText } from "../altTextGenerationService";
 import dotenv from "dotenv";
+import {
+  processImage,
+  cleanExistingEntries,
+  filterImagesToProcess,
+  appendToCSV,
+} from "./utils";
 
 // Load environment variables from .env.development.local
 const environmentFilePath = path.resolve(
@@ -21,86 +25,28 @@ const INPUT_FOLDER = path.resolve(__dirname, "./images");
 // where to save the CSV relative to this script
 const OUTPUT_FILE = path.resolve(__dirname, "./alt-text-output.csv");
 
-interface ImageResult {
-  imageName: string;
-  altText: string | undefined;
-}
-
-const contentTypeMap: Record<string, string> = {
-  ".jpg": "image/jpeg",
-  ".jpeg": "image/jpeg",
-  ".png": "image/png",
-  ".gif": "image/gif",
-  ".webp": "image/webp",
-} as const;
-
-async function processImage(imagePath: string): Promise<ImageResult> {
+async function main() {
   try {
-    // Read image file and convert to base64
-    const imageBuffer = fs.readFileSync(imagePath);
-    const base64Image = imageBuffer.toString("base64");
+    cleanExistingEntries({ outputFile: OUTPUT_FILE });
 
-    // Determine content type based on file extension
-    const ext = path
-      .extname(imagePath)
-      .toLowerCase() as keyof typeof contentTypeMap;
-    const contentType = contentTypeMap[ext] || "image/jpeg";
-
-    console.log(`Processing ${path.basename(imagePath)}...`);
-
-    // Generate alt text
-    const altText = await generateAltText({
-      imageData: base64Image,
-      contentType,
-      apiKey: process.env.GEMINI_API_KEY as string,
+    // Get all image files and filter out those that already have alt text
+    const imagesToProcess = filterImagesToProcess({
+      inputFolder: INPUT_FOLDER,
+      csvFilePath: OUTPUT_FILE,
     });
 
     console.log(
-      `✓ Successfully generated alt text for ${path.basename(imagePath)}`
+      `Found ${imagesToProcess.length} images that need alt text generation`
     );
 
-    return {
-      imageName: path.basename(imagePath),
-      altText,
-    };
-  } catch (error) {
-    console.error(`❌ Error processing ${path.basename(imagePath)}:`, error);
-    return {
-      imageName: path.basename(imagePath),
-      altText: undefined,
-    };
-  }
-}
-
-async function main() {
-  try {
-    // Create CSV file with headers
-    fs.writeFileSync(OUTPUT_FILE, "Image Name,Alt Text\n");
-
-    // Get all image files from the input folder
-    const files = fs.readdirSync(INPUT_FOLDER);
-    const imageFiles = files.filter((file: string) => {
-      const ext = path.extname(file).toLowerCase();
-      return [".jpg", ".jpeg", ".png", ".gif", ".webp"].includes(ext);
-    });
-
-    console.log(`Found ${imageFiles.length} images to process`);
-
     // Process each image and append to CSV
-    for (const file of imageFiles) {
+    for (const file of imagesToProcess) {
       const imagePath = path.join(INPUT_FOLDER, file);
       const result = await processImage(imagePath);
-
-      // Escape any commas in the alt text and wrap in quotes if needed
-      const escapedAltText = result.altText?.includes(",")
-        ? `"${result.altText?.replace(/"/g, '""')}"`
-        : result.altText;
-
-      // Append to CSV file
-      fs.appendFileSync(OUTPUT_FILE, `${result.imageName},${escapedAltText}\n`);
+      appendToCSV({ result, outputFile: OUTPUT_FILE });
     }
 
-    console.log(`Successfully generated CSV file: ${OUTPUT_FILE}`);
+    console.log(`Successfully updated CSV file: ${OUTPUT_FILE}`);
   } catch (error) {
     console.error("Error:", error);
     process.exit(1);
