@@ -46,6 +46,8 @@ async function processImage(imagePath: string): Promise<ImageResult> {
       .toLowerCase() as keyof typeof contentTypeMap;
     const contentType = contentTypeMap[ext] || "image/jpeg";
 
+    console.log(`Processing ${path.basename(imagePath)}...`);
+
     // Generate alt text
     const altText = await generateAltText({
       imageData: base64Image,
@@ -53,12 +55,16 @@ async function processImage(imagePath: string): Promise<ImageResult> {
       apiKey: process.env.GEMINI_API_KEY as string,
     });
 
+    console.log(
+      `✓ Successfully generated alt text for ${path.basename(imagePath)}`
+    );
+
     return {
       imageName: path.basename(imagePath),
       altText,
     };
   } catch (error) {
-    console.error(`Error processing ${imagePath}:`, error);
+    console.error(`❌ Error processing ${path.basename(imagePath)}:`, error);
     return {
       imageName: path.basename(imagePath),
       altText: undefined,
@@ -82,7 +88,6 @@ async function main() {
 
     // Process each image and append to CSV
     for (const file of imageFiles) {
-      console.log(`Processing ${file}...`);
       const imagePath = path.join(INPUT_FOLDER, file);
       const result = await processImage(imagePath);
 
