@@ -11,7 +11,7 @@ async function handleRateLimitError(
       attempt + 1
     }/${maxRetries} failed with 429 (Too Many Requests). Retrying in 10 seconds...`
   );
-  await customSleep(10000);
+  await customSleep(20000);
 }
 
 async function handleServiceUnavailableError(
