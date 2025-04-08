@@ -1,4 +1,8 @@
 import { GENERATE_ALT_TEXT_PROMPT, GEMINI_API_ENDPOINT } from "./constants";
+import {
+  handleHttpError,
+  handleGenericError,
+} from "./errorsHandling/geminiApiErrors";
 
 /**
  * Alt Text Generation Service using Google Gemini 2.0 Flash API
@@ -33,10 +37,6 @@ interface GenerateAltTextOptions {
   apiKey: string;
 }
 
-const sleep = (ms: number): Promise<void> => {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-};
-
 async function fetchWithRetry(
   url: string,
   options: RequestInit,
@@ -53,42 +53,17 @@ async function fetchWithRetry(
         return response;
       }
 
-      // If we get a 503 error, we'll retry with backoff
-      if (response.status === 503) {
-        const errorText = await response.text();
-        lastError = new Error(
-          `Gemini API error (${response.status}): ${errorText}`
-        );
-
-        // Use fixed backoff times: 1s, 3s, 5s
-        const backoffTimes = [1000, 3000, 5000];
-        const backoffTime = backoffTimes[attempt] || 5000; // Default to 5s if attempt is out of bounds
-        console.log(
-          `Attempt ${
-            attempt + 1
-          }/${maxRetries} failed with 503. Retrying in ${backoffTime}ms...`
-        );
-
-        // Wait before retrying
-        await sleep(backoffTime);
+      // Handle HTTP errors
+      const shouldRetry = await handleHttpError(response, attempt, maxRetries);
+      if (shouldRetry) {
         continue;
       }
-
-      // For other errors, throw immediately
-      const errorText = await response.text();
-      throw new Error(`Gemini API error (${response.status}): ${errorText}`);
     } catch (error) {
       lastError = error instanceof Error ? error : new Error(String(error));
 
       // If it's not the last attempt, wait and retry
       if (attempt < maxRetries - 1) {
-        const backoffTime = Math.pow(2, attempt) * 1000;
-        console.log(
-          `Attempt ${
-            attempt + 1
-          }/${maxRetries} failed. Retrying in ${backoffTime}ms...`
-        );
-        await sleep(backoffTime);
+        await handleGenericError(attempt, maxRetries);
       }
     }
   }
