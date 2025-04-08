@@ -7,13 +7,17 @@
     "build": "tsc",
     "lint": "tsc --noEmit",
     "setup:env": "cp .env.example .env.development.local && echo 'Environment file created. Update GEMINI_API_KEY in .env.development.local'",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "bulk-generate": "tsx scripts/bulkGenerate.ts"
   },
   "dependencies": {
     "zod": "^3.24.2"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240208.0",
+    "@types/node": "^22.14.0",
+    "dotenv": "^16.4.7",
+    "tsx": "^4.19.3",
     "typescript": "^5.3.3",
     "wrangler": "^4.2.0"
   }
