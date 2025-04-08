@@ -33,6 +33,73 @@ interface GenerateAltTextOptions {
   apiKey: string;
 }
 
+const sleep = (ms: number): Promise<void> => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
+async function fetchWithRetry(
+  url: string,
+  options: RequestInit,
+  maxRetries: number = 3
+): Promise<Response> {
+  let lastError: Error | null = null;
+
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      const response = await fetch(url, options);
+
+      // If response is successful, return it immediately
+      if (response.ok) {
+        return response;
+      }
+
+      // If we get a 503 error, we'll retry with backoff
+      if (response.status === 503) {
+        const errorText = await response.text();
+        lastError = new Error(
+          `Gemini API error (${response.status}): ${errorText}`
+        );
+
+        // Use fixed backoff times: 1s, 3s, 5s
+        const backoffTimes = [1000, 3000, 5000];
+        const backoffTime = backoffTimes[attempt] || 5000; // Default to 5s if attempt is out of bounds
+        console.log(
+          `Attempt ${
+            attempt + 1
+          }/${maxRetries} failed with 503. Retrying in ${backoffTime}ms...`
+        );
+
+        // Wait before retrying
+        await sleep(backoffTime);
+        continue;
+      }
+
+      // For other errors, throw immediately
+      const errorText = await response.text();
+      throw new Error(`Gemini API error (${response.status}): ${errorText}`);
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error));
+
+      // If it's not the last attempt, wait and retry
+      if (attempt < maxRetries - 1) {
+        const backoffTime = Math.pow(2, attempt) * 1000;
+        console.log(
+          `Attempt ${
+            attempt + 1
+          }/${maxRetries} failed. Retrying in ${backoffTime}ms...`
+        );
+        await sleep(backoffTime);
+      }
+    }
+  }
+
+  // If we've exhausted all retries, throw the last error
+  throw (
+    lastError ||
+    new Error("Failed to get response from Gemini API after multiple attempts")
+  );
+}
+
 export async function generateAltText({
   imageData,
   contentType,
@@ -58,20 +125,17 @@ export async function generateAltText({
   };
 
   try {
-    // Make request to Gemini API
-    const response = await fetch(`${GEMINI_API_ENDPOINT}?key=${apiKey}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestBody),
-    });
-
-    // Handle API error responses
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Gemini API error (${response.status}): ${errorText}`);
-    }
+    // Make request to Gemini API with retry logic
+    const response = await fetchWithRetry(
+      `${GEMINI_API_ENDPOINT}?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      }
+    );
 
     // Parse the response
     const data = (await response.json()) as GeminiResponse;
