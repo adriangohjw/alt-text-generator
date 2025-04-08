@@ -82,7 +82,14 @@ export async function generateAltText({
       data.candidates[0]?.content?.parts &&
       data.candidates[0].content.parts[0]?.text
     ) {
-      return data.candidates[0].content.parts[0].text.trim();
+      let text = data.candidates[0].content.parts[0].text.trim();
+
+      // Remove double quotes if they wrap the entire text
+      if (text.startsWith('"') && text.endsWith('"')) {
+        text = text.slice(1, -1);
+      }
+
+      return text;
     } else {
       throw new Error("Could not extract alt text from Gemini API response");
     }
