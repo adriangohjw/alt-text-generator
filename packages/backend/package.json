@@ -21,6 +21,6 @@
     "dotenv": "^16.5.0",
     "tsx": "^4.19.3",
     "typescript": "^5.3.3",
-    "wrangler": "^4.2.0"
+    "wrangler": "^4.13.0"
   }
 }
