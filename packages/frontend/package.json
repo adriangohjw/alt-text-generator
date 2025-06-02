@@ -12,17 +12,17 @@
     "use-babel-plugin": "npm uninstall @vitejs/plugin-react-swc && npm install @vitejs/plugin-react && node -e \"const fs=require('fs');const path=require('path');const configPath=path.resolve('vite.config.ts');let config=fs.readFileSync(configPath,'utf8');config=config.replace(/react-swc/g,'react');fs.writeFileSync(configPath,config);\""
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.7",
+    "@tailwindcss/vite": "^4.1.8",
     "react": "^19.0.0",
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.26.0",
+    "@eslint/js": "^9.28.0",
     "@types/react": "^19.1.5",
     "@types/react-dom": "^19.1.5",
     "@vitejs/plugin-react-swc": "^3.10.0",
     "cross-env": "^7.0.3",
-    "eslint": "^9.27.0",
+    "eslint": "^9.28.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.2.0",
@@ -31,10 +31,10 @@
     "vite": "^6.3.5"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.40.2",
+    "@rollup/rollup-linux-x64-gnu": "4.41.1",
     "@swc/core-linux-x64-gnu": "1.11.29",
     "@swc/core-linux-x64-musl": "1.11.29",
-    "@tailwindcss/oxide-linux-x64-musl": "^4.1.7",
+    "@tailwindcss/oxide-linux-x64-musl": "^4.1.8",
     "@tailwindcss/oxide-linux-x64-gnu": "^4.0.1",
     "lightningcss-linux-x64-gnu": "^1.30.0"
   }
