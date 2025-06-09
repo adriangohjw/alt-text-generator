@@ -11,7 +11,7 @@
     "bulk-generate": "tsx scripts/bulkGenerate.ts"
   },
   "dependencies": {
-    "zod": "^3.25.46"
+    "zod": "^3.25.56"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250607.0",
