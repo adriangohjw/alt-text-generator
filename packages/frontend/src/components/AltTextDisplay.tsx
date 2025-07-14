@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { SimpleToast } from "./SimpleToast";
+
 const CopyIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -35,23 +38,41 @@ interface AltTextDisplayProps {
 }
 
 export function AltTextDisplay({ altText }: AltTextDisplayProps) {
+  const [showToast, setShowToast] = useState(false);
+
   if (!altText) return null;
 
+  const handleCopyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(altText);
+      setShowToast(true);
+    } catch (err) {
+      console.error("Failed to copy to clipboard:", err);
+    }
+  };
+
   return (
-    <div className="border rounded-lg p-4 bg-white dark:bg-gray-800">
+    <div className="border rounded-lg p-4 bg-white dark:bg-gray-800 relative">
       <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
         Generated Alt Text
       </h2>
       <p className="text-gray-700 dark:text-gray-300">{altText}</p>
       <button
         className="mt-4 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 mr-2 cursor-pointer flex items-center gap-2"
-        onClick={() => navigator.clipboard.writeText(altText)}
+        onClick={handleCopyToClipboard}
         type="button"
         aria-label="Copy to clipboard"
       >
         <CopyIcon />
         Copy to clipboard
       </button>
+
+      {showToast && (
+        <SimpleToast
+          message="Copied to clipboard!"
+          onClose={() => setShowToast(false)}
+        />
+      )}
     </div>
   );
 }
