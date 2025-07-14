@@ -14,7 +14,10 @@ import {
   generateAltTextFromUrlApi,
 } from "./utils";
 import { InputMethod } from "./types";
-import { GENERATING_ALT_TEXT_MESSAGE } from "./constants";
+import {
+  ERROR_GENERATING_ALT_TEXT_MESSAGE,
+  GENERATING_ALT_TEXT_MESSAGE,
+} from "./constants";
 
 function App() {
   const [image, setImage] = useState<File | null>(null);
@@ -78,7 +81,7 @@ function App() {
       setAltText(generatedAltText);
     } catch (error) {
       console.error("Error generating alt text:", error);
-      setAltText("Error generating alt text. Please try again.");
+      setAltText(ERROR_GENERATING_ALT_TEXT_MESSAGE);
     } finally {
       setIsGenerating(false);
     }

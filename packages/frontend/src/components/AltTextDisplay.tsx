@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { SimpleToast } from "./SimpleToast";
-import { GENERATING_ALT_TEXT_MESSAGE } from "../constants";
+import {
+  GENERATING_ALT_TEXT_MESSAGE,
+  ERROR_GENERATING_ALT_TEXT_MESSAGE,
+} from "../constants";
 
 const CopyIcon = () => (
   <svg
@@ -52,6 +55,11 @@ export function AltTextDisplay({ altText }: AltTextDisplayProps) {
     }
   };
 
+  const displayCopyButton =
+    altText &&
+    altText !== GENERATING_ALT_TEXT_MESSAGE &&
+    altText !== ERROR_GENERATING_ALT_TEXT_MESSAGE;
+
   return (
     <div className="border rounded-lg p-4 bg-white dark:bg-gray-800 relative">
       <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
@@ -59,7 +67,7 @@ export function AltTextDisplay({ altText }: AltTextDisplayProps) {
       </h2>
       <p className="text-gray-700 dark:text-gray-300">{altText}</p>
 
-      {altText && altText !== GENERATING_ALT_TEXT_MESSAGE && (
+      {displayCopyButton && (
         <button
           className="mt-4 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 mr-2 cursor-pointer flex items-center gap-2"
           onClick={handleCopyToClipboard}
