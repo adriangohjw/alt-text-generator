@@ -14,6 +14,10 @@ import {
   generateAltTextFromUrlApi,
 } from "./utils";
 import { InputMethod } from "./types";
+import {
+  ERROR_GENERATING_ALT_TEXT_MESSAGE,
+  GENERATING_ALT_TEXT_MESSAGE,
+} from "./constants";
 
 function App() {
   const [image, setImage] = useState<File | null>(null);
@@ -65,7 +69,7 @@ function App() {
 
     try {
       setIsGenerating(true);
-      setAltText("Generating alt text...");
+      setAltText(GENERATING_ALT_TEXT_MESSAGE);
 
       const base64Image = await fileToBase64(image);
       const generatedAltText = await generateAltTextApi(
@@ -77,7 +81,7 @@ function App() {
       setAltText(generatedAltText);
     } catch (error) {
       console.error("Error generating alt text:", error);
-      setAltText("Error generating alt text. Please try again.");
+      setAltText(ERROR_GENERATING_ALT_TEXT_MESSAGE);
     } finally {
       setIsGenerating(false);
     }
@@ -92,7 +96,7 @@ function App() {
 
     try {
       setIsGenerating(true);
-      setAltText("Generating alt text...");
+      setAltText(GENERATING_ALT_TEXT_MESSAGE);
       setPreviewUrl(url);
 
       // Clear any existing uploaded image
