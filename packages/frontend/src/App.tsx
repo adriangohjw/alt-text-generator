@@ -14,6 +14,7 @@ import {
   generateAltTextFromUrlApi,
 } from "./utils";
 import { InputMethod } from "./types";
+import { GENERATING_ALT_TEXT_MESSAGE } from "./constants";
 
 function App() {
   const [image, setImage] = useState<File | null>(null);
@@ -65,7 +66,7 @@ function App() {
 
     try {
       setIsGenerating(true);
-      setAltText("Generating alt text...");
+      setAltText(GENERATING_ALT_TEXT_MESSAGE);
 
       const base64Image = await fileToBase64(image);
       const generatedAltText = await generateAltTextApi(
@@ -92,7 +93,7 @@ function App() {
 
     try {
       setIsGenerating(true);
-      setAltText("Generating alt text...");
+      setAltText(GENERATING_ALT_TEXT_MESSAGE);
       setPreviewUrl(url);
 
       // Clear any existing uploaded image
