@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250719.0",
-    "@types/node": "^24.0.15",
+    "@types/node": "^24.1.0",
     "csv-parse": "^5.6.0",
     "csv-stringify": "^6.6.0",
     "dotenv": "^17.2.0",
