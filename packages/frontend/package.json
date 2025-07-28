@@ -33,7 +33,7 @@
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.45.1",
     "@swc/core-linux-x64-gnu": "1.13.1",
-    "@swc/core-linux-x64-musl": "1.12.11",
+    "@swc/core-linux-x64-musl": "1.13.2",
     "@tailwindcss/oxide-linux-x64-musl": "^4.1.10",
     "@tailwindcss/oxide-linux-x64-gnu": "^4.1.11",
     "lightningcss-linux-x64-gnu": "^1.30.0"
