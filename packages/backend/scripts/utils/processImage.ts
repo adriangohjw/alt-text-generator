@@ -8,7 +8,11 @@ export async function processImage(imagePath: string): Promise<ImageResult> {
   try {
     const base64Image = imageToBase64(imagePath);
     const contentType = getContentType(imagePath);
-    const imageName = path.basename(imagePath);
+
+    // Get the relative path from the images folder to preserve folder structure
+    const imagesFolder = path.resolve(__dirname, "../images");
+    const relativePath = path.relative(imagesFolder, imagePath);
+    const imageName = relativePath;
 
     console.log(`Processing ${imageName}...`);
 
@@ -27,7 +31,7 @@ export async function processImage(imagePath: string): Promise<ImageResult> {
   } catch (error) {
     console.error(`❌ Error processing ${path.basename(imagePath)}:`, error);
     return {
-      imageName: path.basename(imagePath),
+      imageName: path.relative(path.resolve(__dirname, "../images"), imagePath),
       altText: undefined,
     };
   }

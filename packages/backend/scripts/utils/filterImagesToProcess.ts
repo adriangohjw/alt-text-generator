@@ -20,11 +20,31 @@ export function filterImagesToProcess({
 function getImageFiles(
   inputFolder: FilterImagesToProcessOptions["inputFolder"]
 ): string[] {
-  const files = fs.readdirSync(inputFolder);
-  return files.filter((file: string) => {
-    const ext = path.extname(file).toLowerCase();
-    return fileExtensions.includes(ext);
-  });
+  const imageFiles: string[] = [];
+
+  function traverseDirectory(dir: string, relativePath: string = "") {
+    const items = fs.readdirSync(dir);
+
+    for (const item of items) {
+      const fullPath = path.join(dir, item);
+      const relativeItemPath = path.join(relativePath, item);
+      const stat = fs.statSync(fullPath);
+
+      if (stat.isDirectory()) {
+        // Recursively traverse subdirectories
+        traverseDirectory(fullPath, relativeItemPath);
+      } else if (stat.isFile()) {
+        // Check if it's an image file
+        const ext = path.extname(item).toLowerCase();
+        if (fileExtensions.includes(ext)) {
+          imageFiles.push(relativeItemPath);
+        }
+      }
+    }
+  }
+
+  traverseDirectory(inputFolder);
+  return imageFiles;
 }
 
 function getExistingEntries(
