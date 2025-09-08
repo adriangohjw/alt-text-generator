@@ -12,7 +12,7 @@
     "use-babel-plugin": "npm uninstall @vitejs/plugin-react-swc && npm install @vitejs/plugin-react && node -e \"const fs=require('fs');const path=require('path');const configPath=path.resolve('vite.config.ts');let config=fs.readFileSync(configPath,'utf8');config=config.replace(/react-swc/g,'react');fs.writeFileSync(configPath,config);\""
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.12",
+    "@tailwindcss/vite": "^4.1.13",
     "react": "^19.0.0",
     "react-dom": "^19.1.1"
   },
