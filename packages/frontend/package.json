@@ -36,6 +36,6 @@
     "@swc/core-linux-x64-musl": "1.13.20",
     "@tailwindcss/oxide-linux-x64-musl": "^4.1.10",
     "@tailwindcss/oxide-linux-x64-gnu": "^4.1.13",
-    "lightningcss-linux-x64-gnu": "^1.30.0"
+    "lightningcss-linux-x64-gnu": "^1.30.2"
   }
 }
