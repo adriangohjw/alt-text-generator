@@ -38,7 +38,7 @@ This is a monorepo project with the following packages:
 3. Set up the backend environment:
 
    ```bash
-   npm run setup:env:backend
+   bun run setup:env:backend
    ```
 
    This will create a `.env.development.local` file. Edit it to add your Gemini API key.
@@ -54,19 +54,19 @@ This is a monorepo project with the following packages:
 To run the entire application:
 
 ```bash
-npm run dev
+bun run dev
 ```
 
 To run only the backend:
 
 ```bash
-npm run dev:backend
+bun run dev:backend
 ```
 
 To run only the frontend:
 
 ```bash
-npm run dev:frontend
+bun run dev:frontend
 ```
 
 ### Deployment

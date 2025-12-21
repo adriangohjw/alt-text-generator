@@ -37,7 +37,7 @@ This is the frontend interface for the Alt Text Generator service, which automat
 ### Running Locally
 
 ```bash
-npm run dev
+bun run dev
 ```
 
 This will start the development server, typically at `http://localhost:5173`.
@@ -45,7 +45,7 @@ This will start the development server, typically at `http://localhost:5173`.
 ### Building for Production
 
 ```bash
-npm run build
+bun run build
 ```
 
 This generates a production build in the `dist` directory.
@@ -57,7 +57,7 @@ The frontend can be deployed to any static hosting service:
 1. Build the project:
 
    ```bash
-   npm run build
+   bun run build
    ```
 
 2. Deploy the contents of the `dist` directory to your preferred hosting service.

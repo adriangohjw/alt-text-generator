@@ -23,7 +23,7 @@ This script automates the process of generating alt text for multiple images usi
 Run the script using:
 
 ```bash
-npm run bulk-generate
+bun run bulk-generate
 ```
 
 The script will:

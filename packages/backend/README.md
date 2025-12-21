@@ -29,7 +29,7 @@ A service that automatically generates accessible alt text for images using Goog
 3. Run the environment setup script:
 
    ```bash
-   npm run setup:env
+   bun run setup:env
    ```
 
    This will create a `.env.development.local` file based on the example template.
@@ -43,7 +43,7 @@ A service that automatically generates accessible alt text for images using Goog
 ### Running Locally
 
 ```
-npm run dev:local
+bun run dev:local
 ```
 
 This will start the development server at `http://localhost:8787`.
@@ -77,7 +77,7 @@ For deployment to Cloudflare Workers:
 4. Deploy to Cloudflare Workers:
 
    ```bash
-   npm run deploy
+   bun run deploy
    ```
 
    This will build your project and deploy it to Cloudflare Workers.
