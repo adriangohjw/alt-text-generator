@@ -30,13 +30,5 @@
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.48.1",
     "vite": "^7.2.7"
-  },
-  "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.53.3",
-    "@swc/core-linux-x64-gnu": "1.15.4",
-    "@swc/core-linux-x64-musl": "1.15.4",
-    "@tailwindcss/oxide-linux-x64-musl": "^4.1.18",
-    "@tailwindcss/oxide-linux-x64-gnu": "^4.1.17",
-    "lightningcss-linux-x64-gnu": "^1.30.2"
   }
 }
