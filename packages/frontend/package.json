@@ -12,22 +12,22 @@
     "use-babel-plugin": "bun remove @vitejs/plugin-react-swc && bun add @vitejs/plugin-react && node -e \"const fs=require('fs');const path=require('path');const configPath=path.resolve('vite.config.ts');let config=fs.readFileSync(configPath,'utf8');config=config.replace(/react-swc/g,'react');fs.writeFileSync(configPath,config);\""
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.18",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "tailwindcss": "^4.1.18"
+    "@tailwindcss/vite": "catalog:tailwindcss",
+    "react": "catalog:react",
+    "react-dom": "catalog:react",
+    "tailwindcss": "catalog:tailwindcss"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.1",
-    "@types/react": "^19.2.7",
-    "@types/react-dom": "^19.2.3",
+    "@eslint/js": "catalog:eslint",
+    "@types/react": "catalog:react",
+    "@types/react-dom": "catalog:react",
     "@vitejs/plugin-react-swc": "^3.11.0",
     "cross-env": "^7.0.3",
-    "eslint": "^9.39.1",
+    "eslint": "catalog:eslint",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
-    "typescript": "~5.9.3",
+    "typescript": "catalog:typescript",
     "typescript-eslint": "^8.48.1",
     "vite": "^7.2.7"
   }
