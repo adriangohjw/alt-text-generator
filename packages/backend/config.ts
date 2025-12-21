@@ -38,10 +38,10 @@ export function validateEnvironment(
   } catch (error) {
     // Enhance error message for better debugging
     if (error instanceof z.ZodError) {
-      const errorDetails = error.errors
-        .map((err) => {
-          const path = err.path.join(".");
-          return `${path}: ${err.message}`;
+      const errorDetails = error.issues
+        .map((issue) => {
+          const path = issue.path.join(".");
+          return `${path}: ${issue.message}`;
         })
         .join("\n");
 
