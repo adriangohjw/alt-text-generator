@@ -42,6 +42,6 @@
     "deploy:backend": "turbo run deploy --filter=backend"
   },
   "devDependencies": {
-    "turbo": "^2.8.10"
+    "turbo": "^2.8.11"
   }
 }
